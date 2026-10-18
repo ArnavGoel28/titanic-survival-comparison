@@ -1,5 +1,5 @@
 {
-  "Naive Bayes": {
+  "Naive Bayes (scikit-learn)": {
     "metrics": {
       "Accuracy": 0.7877094972067039,
       "Precision": 0.7205882352941176,
@@ -20,9 +20,34 @@
     ],
     "training_records": 712,
     "test_records": 179,
-    "majority_baseline_accuracy": 0.6201117318435754
+    "majority_baseline_accuracy": 0.6201117318435754,
+    "implementation": "scikit-learn"
   },
-  "Logistic Regression": {
+  "Naive Bayes (NumPy)": {
+    "metrics": {
+      "Accuracy": 0.7877094972067039,
+      "Precision": 0.7205882352941176,
+      "Recall": 0.7205882352941176,
+      "F1": 0.7205882352941176,
+      "ROC-AUC": 0.8408850026497084,
+      "Log-loss": 0.6545868419824105
+    },
+    "confusion_matrix": [
+      [
+        92,
+        19
+      ],
+      [
+        19,
+        49
+      ]
+    ],
+    "training_records": 712,
+    "test_records": 179,
+    "majority_baseline_accuracy": 0.6201117318435754,
+    "implementation": "NumPy"
+  },
+  "Logistic Regression (scikit-learn)": {
     "metrics": {
       "Accuracy": 0.8044692737430168,
       "Precision": 0.7538461538461538,
@@ -43,6 +68,31 @@
     ],
     "training_records": 712,
     "test_records": 179,
-    "majority_baseline_accuracy": 0.6201117318435754
+    "majority_baseline_accuracy": 0.6201117318435754,
+    "implementation": "scikit-learn"
+  },
+  "Logistic Regression (NumPy)": {
+    "metrics": {
+      "Accuracy": 0.8044692737430168,
+      "Precision": 0.7538461538461538,
+      "Recall": 0.7205882352941176,
+      "F1": 0.7368421052631579,
+      "ROC-AUC": 0.8648648648648649,
+      "Log-loss": 0.43403432624356125
+    },
+    "confusion_matrix": [
+      [
+        95,
+        16
+      ],
+      [
+        19,
+        49
+      ]
+    ],
+    "training_records": 712,
+    "test_records": 179,
+    "majority_baseline_accuracy": 0.6201117318435754,
+    "implementation": "NumPy"
   }
 }

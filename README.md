@@ -1,6 +1,6 @@
 # Titanic Survival Prediction: Naive Bayes vs Logistic Regression
 
-Two model notebooks share one data-preparation script and a fixed train/test split. Their executed outputs, test metrics and graphs are included.
+Both model notebooks show the scikit-learn estimator alongside a direct NumPy implementation. They share one preparation script and fixed train/test split, with executed results and graphs included.
 
 ## Layout
 
@@ -15,7 +15,8 @@ titanic-survival-comparison/
 |   |   |-- metrics.json
 |   |   `-- graphs/
 |   |       |-- naive_bayes_confusion_matrix.png
-|   |       `-- logistic_regression_confusion_matrix.png
+|   |       |-- logistic_regression_confusion_matrix.png
+|   |       `-- logistic_regression_training_loss.png
 |   `-- data_preparation.py
 |-- models/
 |   |-- naive_bayes.ipynb
@@ -66,18 +67,37 @@ Both models use the same 712 training and 179 test passengers from `split.json`.
 
 Numeric predictors: Age, SibSp, Parch and Fare. Categorical predictors: Pclass, Sex and Embarked. Numeric gaps use training medians; category gaps use training modes. Categories and scaling are learned only from training records. No oversampling or parameter tuning is used. Numeric scaling and one-hot features are the same for both classifiers.
 
+## Implementations
+
+Each notebook keeps the original library model and adds a NumPy class with its own training and prediction methods.
+
+- **Naive Bayes:** calculate class priors, per-class means and variances, Gaussian log-likelihoods, and normalized probabilities. A small variance floor handles constant features.
+- **Logistic Regression:** calculate a stable sigmoid and optimize L2-regularized binary cross-entropy using full-batch gradient descent. The intercept is not penalized.
+
+NumPy LR minimizes `mean(binary cross-entropy) + ||w||² / (2*C*n)`, matching the library's `C=1` objective. It uses learning rate 0.1, at most 50,000 iterations and a training-gradient tolerance of 1e-7. It converged in 19,158 iterations for this fixed input. The original library LR uses its default L-BFGS solver with `max_iter=1000`.
+
+The added model logic uses NumPy directly. Scikit-learn remains responsible for preprocessing, evaluation metrics and confusion-matrix display.
+
 ## Results
 
-| Model | Accuracy | F1 | ROC-AUC | Log-loss |
+| Model / implementation | Accuracy | F1 | ROC-AUC | Log-loss |
 | --- | ---: | ---: | ---: | ---: |
-| Naive Bayes | 78.77% | 0.7206 | 0.8409 | 0.6546 |
-| Logistic Regression | 80.45% | 0.7368 | 0.8650 | 0.4342 |
+| Naive Bayes (scikit-learn) | 78.77% | 0.720588 | 0.840885 | 0.654587 |
+| Naive Bayes (NumPy) | 78.77% | 0.720588 | 0.840885 | 0.654587 |
+| Logistic Regression (scikit-learn) | 80.45% | 0.736842 | 0.864997 | 0.434158 |
+| Logistic Regression (NumPy) | 80.45% | 0.736842 | 0.864865 | 0.434034 |
 
-The majority-class reference is 62.01% accurate. LR is slightly better on this split. Both models identify 49 of the 68 survivors; LR makes 16 false positives versus 19 for NB. GaussianNB's independence/Gaussian assumptions are approximate for these mixed features; LR remains limited to linear log-odds. One historical sample cannot establish universal superiority.
+The majority-class reference is 62.01% accurate. Both implementations of each model produce the same threshold-based predictions on these test records. Naive Bayes identifies 49 of the 68 survivors with 19 false positives; Logistic Regression identifies the same 49 survivors with 16 false positives.
 
-![Naive Bayes confusion matrix](data/output/graphs/naive_bayes_confusion_matrix.png)
+The NumPy NB probabilities agree with the library within numerical precision. NumPy LR uses a different optimizer and a stricter training-gradient stopping rule; its probabilities and ranking metrics differ slightly from the library solution. These small differences do not establish that either implementation is superior. No test scores are used to choose optimizer settings.
 
-![Logistic Regression confusion matrix](data/output/graphs/logistic_regression_confusion_matrix.png)
+Gaussian Naive Bayes's independence/Gaussian assumptions are approximate for mixed features; LR remains limited to linear log-odds. One historical sample cannot establish universal superiority.
+
+![Naive Bayes: scikit-learn and NumPy](data/output/graphs/naive_bayes_confusion_matrix.png)
+
+![Logistic Regression: scikit-learn and NumPy](data/output/graphs/logistic_regression_confusion_matrix.png)
+
+![NumPy Logistic Regression training loss](data/output/graphs/logistic_regression_training_loss.png)
 
 ## Supporting files
 
