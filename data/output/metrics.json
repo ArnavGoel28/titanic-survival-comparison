@@ -1,0 +1,48 @@
+{
+  "Naive Bayes": {
+    "metrics": {
+      "Accuracy": 0.7877094972067039,
+      "Precision": 0.7205882352941176,
+      "Recall": 0.7205882352941176,
+      "F1": 0.7205882352941176,
+      "ROC-AUC": 0.8408850026497084,
+      "Log-loss": 0.6545868459847006
+    },
+    "confusion_matrix": [
+      [
+        92,
+        19
+      ],
+      [
+        19,
+        49
+      ]
+    ],
+    "training_records": 712,
+    "test_records": 179,
+    "majority_baseline_accuracy": 0.6201117318435754
+  },
+  "Logistic Regression": {
+    "metrics": {
+      "Accuracy": 0.8044692737430168,
+      "Precision": 0.7538461538461538,
+      "Recall": 0.7205882352941176,
+      "F1": 0.7368421052631579,
+      "ROC-AUC": 0.864997350291468,
+      "Log-loss": 0.43415799172466296
+    },
+    "confusion_matrix": [
+      [
+        95,
+        16
+      ],
+      [
+        19,
+        49
+      ]
+    ],
+    "training_records": 712,
+    "test_records": 179,
+    "majority_baseline_accuracy": 0.6201117318435754
+  }
+}
